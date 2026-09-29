@@ -1,0 +1,65 @@
+PADARIA BAIRRO JARDINS — COMANDA DIGITAL V4
+
+1. Faça uma cópia da pasta da V3 corrigida e do banco padaria.db.
+2. Extraia este ZIP. Abra no VS Code a pasta INTERNA com app.py e requirements.txt.
+3. Para manter os pedidos anteriores, copie padaria.db da V3 para esta pasta, antes de iniciar.
+4. No PowerShell, dentro da pasta com app.py:
+   py -m venv venv
+   .\venv\Scripts\Activate.ps1
+   python -m pip install -r requirements.txt
+   python app.py
+5. NO PRÓPRIO NOTEBOOK, abra http://127.0.0.1:5000 e clique em Caixa ou Produtos.
+   Cadastre o e-mail ORIGINAL do responsável e a senha (mínimo 10 caracteres).
+   Esse cadastro inicial só pode ser feito no notebook; não pelo celular.
+6. No celular, conectado ao mesmo Wi-Fi, use http://IP-DO-NOTEBOOK:5000.
+
+REDEFINIÇÃO DE SENHA POR E-MAIL — CONFIGURAÇÃO NECESSÁRIA
+A recuperação por código exige uma conta de e-mail SMTP. O sistema não envia e-mails
+sem esta configuração. Antes de executar python app.py, defina no MESMO PowerShell:
+
+$env:SMTP_HOST="smtp.gmail.com"
+$env:SMTP_PORT="587"
+$env:SMTP_USER="seu-email@gmail.com"
+$env:SMTP_PASSWORD="SENHA_DE_APLICATIVO_DO_PROVEDOR"
+$env:SMTP_FROM="seu-email@gmail.com"
+python app.py
+
+Exemplo para Gmail: use senha de aplicativo, quando disponível; não use sua senha
+normal. Para outros provedores, use os dados SMTP que eles fornecerem.
+Nunca coloque senha SMTP em app.py nem envie a pasta com credenciais a clientes.
+As variáveis definidas no PowerShell valem somente para aquela sessão.
+Para iniciar automaticamente no Windows, configure as variáveis de forma segura
+para a conta do serviço e configure o Agendador de Tarefas.
+
+O primeiro e-mail cadastrado recebe os códigos de redefinição de senha e de
+alteração de e-mail. Alterar o e-mail exige estar logado e informar o código
+enviado ao e-mail ANTIGO. Os códigos expiram em 10 minutos e possuem limites
+de tentativas. O sistema guarda o hash da senha, não a senha em texto.
+
+A mesma senha libera Caixa e Produtos. Use "Sair do caixa" ao se ausentar.
+A cozinha e o atendimento permanecem sem senha nesta versão.
+A atualização automática do painel da cozinha e do caixa ocorre a cada 60 segundos.
+O botão Atualizar da cozinha continua funcionando imediatamente.
+
+IMPORTANTE: Esta é uma versão de testes para rede local privada. Antes de vender
+ou expor na internet, implemente HTTPS, perfis de usuários, backups, auditoria,
+proteção adicional contra tentativas de login e monitoramento.
+Não compartilhe padaria.db nem .chave_sessao (contêm dados privados).
+
+
+V5 - MENU E MESAS
+- Clique nos tres tracinhos ao lado do nome para abrir Caixa e Produtos.
+- Atendimento e Cozinha permanecem como abas principais.
+- Dez mesas (01 a 10). Se copiar um banco antigo, mesas 11-20 e pedidos antigos continuam preservados no arquivo, mas nao aparecem nas telas da V5. Feche eventuais contas antigas antes de migrar.
+- Layout mais compacto para notebooks, com responsividade para celulares e tablets.
+- Use a porta 5001 se a porta 5000 estiver ocupada pelo projeto Formulas IA.
+
+V5.1: acesso ao Caixa corrigido: clique explícito, validação da sessão e mensagem de carregamento.
+
+V6 — Atualização
+- Menu lateral: Página inicial, Caixa, Produtos e Gerenciar mesas; todos exigem a mesma senha.
+- Atendimento e Cozinha ficam nas abas públicas. Caixa exibe apenas sua própria área e possui botão Sair do caixa.
+- Mesas: cadastrar até número 999; excluir mesa livre sem pedidos abertos; o histórico é preservado e o número pode ser recadastrado.
+- Banco existente: copie padaria.db e .chave_sessao da V5.1 para a V6 COM O SERVIDOR PARADO.
+- Se o projeto Fórmulas IA usar a porta 5000, altere a última linha de app.py para port=5001.
+- ATENÇÃO: uso de teste em rede local. Para comercializar, configurar servidor WSGI, HTTPS, backups e controles de acesso por função.
